@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install --upgrade pip
+      - pip install ansible ansible-lint boto3
+  pre_build:
+    commands:
+      - ansible --version
+      - ansible-lint playbook.yml
+      - ansible-playbook playbook.yml --syntax-check
+  build:
+    commands:
+      - ansible-playbook -i inventories/prod playbook.yml
+artifacts:
+  files:
+    - '**/*'
+
