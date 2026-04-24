@@ -1,0 +1,12 @@
+---
+- name: Fetch AWS S3 bucket list
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Get list of all S3 buckets
+      community.aws.s3_bucket_info:
+      register: all_buckets
+
+    - name: Print all bucket names
+      ansible.builtin.debug:
+        msg: "{{ all_buckets.buckets | map(attribute='name') | list }}"
